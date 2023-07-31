@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <div align="center">
+            <fieldset style="width:30%;height:10%">
+            <legend>upload</legend>
+                <form method="POST" enctype="multipart/form-data" action="/file_upload"> <!--form 기능 만드는 곳 post: 암호화 해서 전송, get: url에 정보 붙여 전송-->
+                    <input type="file" name="file[]" multiple=""> <!--파일 업로드 -> 파일 선택 버튼 (file[]:배열은 파일 여러개 입력받음)-->
+                    <button type="submit">Submit</button> <!--전송 버튼, submit과 action이 연결되어있음-->
+                </form>
+            </fieldset>
+        </div>
+        <br>
+        <div align="center">
+        {% for f in name %}
+            <img src={{f}}>
+            {% for cls in label[loop.index-1] %}
+                {{cls}}&nbsp;
+            {% endfor %}
+        {% endfor %}
+        </div>
+    </body>
+</html>
