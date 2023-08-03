@@ -1,15 +1,13 @@
-import ultralytics
 from ultralytics import YOLO
 import matplotlib.pyplot as plt
-import cv2, torch
+import cv2
 import pandas as pd
-import numpy as np
 
 # 박스 위치 확인(이미지 확인)
 def visualize_yolo(image_path, x, y, w, h):
     # Read the image
     img = cv2.imread(image_path)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # 해당 색 변환하면 결과값이 바뀜
    
     # Draw the bounding box
     xmin = int((x - w / 2) ) 
@@ -98,7 +96,6 @@ def get_length_df(length_model, test_image_list):
 
 # 모델별 결과 매칭 함수
 # 카테고리 df row의 좌표별로 소재 및 소매기장 df row의 좌표를 각각 비교하여 가장 작은(가까운) 거리끼리 매칭
-
 def get_match_df(image_list):
     
     # 모델 불러오기
@@ -133,7 +130,7 @@ def get_match_df(image_list):
         # 카테고리 df row의 좌표별로 소재 df row의 좌표를 각각 비교하여 가장 작은 거리끼리 매칭
         if len(material_df) > 1:
             
-            for idx, m_row in material_df.iterrows():
+            for _, m_row in material_df.iterrows():
                 
                 material_temp = m_row['xywh']
                 m_x_center = material_temp[0] + material_temp[2] /2
@@ -162,7 +159,7 @@ def get_match_df(image_list):
         # 소재 df row가 한개일 경우(없을 경우는 고려하지 않음)에각 모든 카테고리 row에 추가
         # 없는 경우에는 NaN 값이 됨
         else:
-            for idx, m_row in material_df.iterrows():
+            for _, m_row in material_df.iterrows():
                 result_df.loc[re_index, 'm_class'] = m_row['class']
                 result_df.loc[re_index, 'm_conf_confidence'] = m_row['conf_confidence']
                 result_df.loc[re_index, 'm_xywh'] = str(m_row['xywh'])
@@ -179,7 +176,7 @@ def get_match_df(image_list):
             # 카테고리 df row의 좌표별로 소매길이 df row의 좌표를 각각 비교하여 가장 작은 거리끼리 매칭
             if len(result_df[result_df['c_first_class'].isin(['Onepiece', 'Top', 'Outer'])]) > 1: 
                     
-                for idx, l_row in length_df.iterrows():
+                for _, l_row in length_df.iterrows():
                     length_temp2 = l_row['xywh']
                     l_x_center = length_temp2[0] + length_temp2[2] /2
                     l_y_center = length_temp2[1] + length_temp2[3] /2
@@ -207,7 +204,7 @@ def get_match_df(image_list):
             # 소매길이 df row가 한개일 경우(없을 경우는 고려하지 않음)에각 모든 카테고리 row에 추가
             # 없는 경우에는 NaN 값이 됨
             else:  
-                for idx, l_row in length_df.iterrows():
+                for _, l_row in length_df.iterrows():
                     #print(l_row)
                     result_df.loc[re_index, 'l_class'] = l_row['class']
                     result_df.loc[re_index, 'l_conf_confidence'] = l_row['conf_confidence']
@@ -221,20 +218,12 @@ def get_korean_class(first_category, second_category, material, length=None):
     
     # 첫번째 카테고리
     korean_first_category_dict = {'Onepiece' : '원피스', 'Top' : '상의', 'Outer' : '아우터', 'Bottom':'하의'}
-    for key, value in korean_first_category_dict.items():
-        if first_category == key:
-            k_first_category = value
-            
             
     # 두번째 카테고리
     korean_second_category_dict = {'JumpSuit' : '점프수트', 'Blouse' : '블라우스', 'Tshirt' : '티셔츠', 
                                 'KnitWear':'니트웨어', 'Shirt':'셔츠', 'Cardigan':'가디건', 'Hoodie':'후드티', 'Jeans':'청바지',
                                 'Pants':'팬츠', 'Skirt':'스커트', 'Dress':'드레스', 'JoggerPants':'조거팬츠',
                                 'Coat':'코트','Jacket':'재킷', 'Jumper':'점퍼', 'PaddedJacket':'패딩', 'Vest':'베스트'}
-    for key, value in korean_second_category_dict.items():
-        if second_category == key:
-            k_second_category = value
-            
     
     # 소재
     korean_material_dict = {'padding' : '패딩', 'Mustang' : '무스탕', 'suede':'스웨이드', 'corduroy':'코듀로이', 'Sequin/Glitter' : '스팽글/글리터',
@@ -242,47 +231,29 @@ def get_korean_class(first_category, second_category, material, length=None):
                            'wool/cashmere' : '울/캐시미어', 'hair knit' : '헤어니트', 'knit' : '니트', 'lace' : '레이스',
                            'linen' : '린넨', 'messi' : '메시', 'fleece' : '플리스', 'neoprene' : '네오프렌', 'silk' : '실크',
                             'spandex' : '스판덱스', 'jacquard' : '자카드', 'leather' : '가죽', 'chiffon' : '시폰', 'woven' : '우븐'}
-    for key, value in korean_material_dict.items():
-        if material == key:
-            k_material = value
-            
     
     # 소매기장
     korean_length_dict = {'Sleeveless shirt' : '민소매', 'Short sleeve' : '반팔', 'Cap':'캡', 'Three-quarter sleeve' : '7부소매', 'Long sleeve' : '긴팔'}
-    for key, value in korean_length_dict.items():
-        if length == key:
-            k_length = value
+
+    k_first_category = korean_first_category_dict[first_category]
+    k_second_category = korean_second_category_dict[second_category]
+
+    if material != None:
+        k_material = korean_material_dict[material]
             
-    
-    if length is None:
-        return k_first_category, k_second_category, k_material
-    else:
+    if length != None:
+        k_length = korean_length_dict[length]          
         return k_first_category, k_second_category, k_material, k_length
+    else:
+        return k_first_category, k_second_category, k_material
       
         
 # 분류 결과값 출력 함수
 def get_output_class(category_first_class, category_second_class, material_class, length_class=None):
-    if length_class is None:
-        print('===========================================================================================================')
-        print(f'카테고리 : {category_first_class} > {category_second_class} > {material_class}')
-        print('===========================================================================================================')
-        print(f'1차 카테고리 : {category_first_class} | 2차 카테고리 : {category_second_class} | 소재 : {material_class}')
-        output1 = f'카테고리 : {category_first_class} > {category_second_class} > {material_class}'
-        output2 = f'( 1차 카테고리 : {category_first_class} | 2차 카테고리 : {category_second_class} | 소재 : {material_class}'
-        return [output1, output2]
-    else:
-        print('===========================================================================================================')
-        print(f'카테고리 : {category_first_class} > {length_class} {category_second_class} > {material_class}')
-        print('===========================================================================================================')
-        print (f'1차 카테고리 : {category_first_class} | 2차 카테고리 : {category_second_class} | 소재 : {material_class} | 소매 기장 : {length_class}')
-        output1 = f'카테고리 : {category_first_class} > {length_class} {category_second_class} > {material_class}'
-        output2 = f'( 1차 카테고리 : {category_first_class} | 2차 카테고리 : {category_second_class} | 소재 : {material_class} | 소매 기장 : {length_class} )'
-        return [output1, output2]
+        return [category_first_class, category_second_class, material_class, length_class]
 
 
 # 점수 높은 class 구하는 함수
-# 점수가 높은 class 구하기
-
 def get_best_class(test_image_list):
     
     # 모델별 결과 매칭 가져오기 
@@ -290,7 +261,6 @@ def get_best_class(test_image_list):
     
     # 1차 카테고리 class 구하기
     c1_max_df = r_df.loc[r_df.groupby(['c_first_class'])['c_conf_confidence'].idxmax(skipna=False)]
-
     
     # 소재 class 구하기
     m_max_df = c1_max_df.loc[c1_max_df.groupby(['c_first_class'])['m_conf_confidence'].idxmax(skipna=False)]
@@ -318,7 +288,7 @@ def get_best_class(test_image_list):
     result = []
     
     # 한글화
-    for index, row in result_df.iterrows():
+    for _, row in result_df.iterrows():
         
         
         # 소매기장 열이 존재할 경우

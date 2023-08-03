@@ -19,24 +19,36 @@
         </div>
         
         <div align="center">      
-            <fieldset style="width:50%;height:10%">      
-            <legend>category</legend>
-                <table><!--https://coding-factory.tistory.com/184 table 생성-->
+            <fieldset style="width:70%;height:10%">      
+            <legend>결과</legend>
+            <form method="POST" enctype="multipart/form-data" action="/db_upload"> <!--form 기능 만드는 곳 post: 암호화 해서 전송, get: url에 정보 붙여 전송-->
+                <b>업로드하고 싶은 카테고리를 선택하고 저장 버튼을 누르세요.</b>
+                <br>==============================================================
+                <table>
                     {% for l in label %}
                         <tr>
-                            <td><input type = 'radio' name = 'check_category'></td>
+                            <td><input type='radio' name='check_category' value='{{l[0]}}, {{l[1]}}, {{l[2]}}, {{l[3]}}'></td>
                             <td>
-                                {{ l[0]}}<br>
-                                {{ l[1]}}
+                                1차 카테고리 : <b>{{l[0]}}</b> | 2차 카테고리 : <b>{{l[1]}}</b> | 소재 : <b>{{l[2]}}</b> 
+                                {% if l[3] != None %}
+                                    | 소매 기장 : <b>{{l[3]}}</b>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
                 </table>
-            </fieldset>
+            </fieldset><br>
+                <input type='hidden' name='filename' value={{files_name}}></td>
+                <button type="submit" onclick="javascript:btn()"> 저장 </button>
+            </form>
         </div>
 
+        <script>
+            function btn(){
+                alert('업로드 되었습니다.')
+            }
+        </script>
         <div align="center"> 
-            <button>설정</button>
         </div>
     </body>
 </html>
