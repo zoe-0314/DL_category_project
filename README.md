@@ -1,14 +1,14 @@
 # 이미지 분석 기반 의류 카테고리 자동화 분류 시스템
 ---
 ## Contents
-[Introduction](#💡-Introduction)   
-[Result Video](#💻-Result-Video)   
-[Project Background](#📚-Project-Background)   
-[Project expected effect](#🙂-Project-expected-effect)   
-[Data Description](#📒-Data-Description)   
-[Development Process](#⚙-Development-Process)   
-[Conclusion](#📋-Conclusion)   
-[Related files](#📂-Related-files)
+1. [Introduction](#💡-Introduction)   
+2. [Result Video](#💻-Result-Video)   
+3. [Project Background](#📚-Project-Background)   
+4. [Project expected effect](#🙂-Project-expected-effect)   
+5. [Data Description](#📒-Data-Description)   
+6. [Development Process](#⚙-Development-Process)   
+7. [Conclusion](#📋-Conclusion)   
+8. [Related files](#📂-Related-files)
 
 <br><br>
 
