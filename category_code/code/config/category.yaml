@@ -1,0 +1,22 @@
+path: /content/after_remove_dataset
+train: train/images
+val: valid/images
+
+names:  
+  0: JumpSuit
+  1: Blouse
+  2: Tshirt
+  3: KnitWear
+  4: Shirt
+  5: Cardigan
+  6: Hoodie
+  7: Jeans
+  8: Pants
+  9: Skirt
+  10: Dress
+  11: JoggerPants
+  12: Coat
+  13: Jacket
+  14: Jumper
+  15: PaddedJacket
+  16: Vest
