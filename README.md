@@ -109,5 +109,7 @@ https://github.com/parkmy0420/DL_category_project/assets/119393455/9719ce97-3d05
 - 폴더별 설명
   - final_model_pt : 각 모델 생성 후 가장 성능이 좋은 weight 파일   
   - server : flask를 이용한 웹 구현 관련 코드
-  - sleeve_length_code : 소매기장 전처리 관련 코드
+  - sleeve_length_code : 소매기장 분류모델 관련 코드
+  - category_code : 카테고리 분류모델 관련 코드
+  - material_code : 소재 분류모델 관련 코드
 
